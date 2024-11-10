@@ -77,7 +77,7 @@ def plantsDisplayView(request: HttpRequest, filterBy):
     elif "isEdible" in request.GET and request.GET["isEdible"] == "false":
         plants = plants.filter(isEdible=False)
 
-    paginator = Paginator(plants, 3)
+    paginator = Paginator(plants, 6)
     pageNumber = request.GET.get('page', 1)
     page_obj = paginator.get_page(pageNumber)
 
@@ -98,7 +98,7 @@ def searchPlantsView(request:HttpRequest):
     else:
         plants = []
 
-    paginator = Paginator(plants, 3)
+    paginator = Paginator(plants, 6)
     pageNumber = request.GET.get('page', 1)
     page_obj = paginator.get_page(pageNumber)
 
