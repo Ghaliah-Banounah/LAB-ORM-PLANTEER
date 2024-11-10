@@ -12,7 +12,7 @@ from datetime import datetime
 #Home page
 def homeView(request: HttpRequest):
     
-    plants = Plant.objects.all()[0:3]
+    plants = Plant.objects.all().order_by('-createdAt')[0:3]
 
     return render(request ,'main/home.html', context={'plants':plants})
 
