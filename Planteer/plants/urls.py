@@ -9,5 +9,6 @@ urlpatterns = [
     path("update/<int:plantid>/", views.updatePlantView, name="updatePlantView"),
     path("delete/<int:plantid>/", views.deletePlantView, name="deletePlantView"),
     path("category/<filterBy>/", views.plantsDisplayView, name="plantsDisplayView"),
-    path("search/", views.searchPlantsView, name="searchPlantsView")
+    path("search/", views.searchPlantsView, name="searchPlantsView"),
+    path("comments/add/<int:plantid>", views.addCommentView, name="addCommentView"),
 ]

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpRequest
-from plants.models import Plant
+from plants.models import Plant, Comment
 from .forms import PlantForm
 from django.core.paginator import Paginator
 
@@ -30,8 +30,9 @@ def plantDetailsView(request: HttpRequest, plantid:int):
     except Exception:
         response = render(request, '404.html')
     else:
+        comments = Comment.objects.filter(plant=plant)
         similarPlants = Plant.objects.filter(category=plant.category)[0:3]
-        response = render(request, 'plants/plantDetails.html', context={"plant":plant, "similarPlants": similarPlants})
+        response = render(request, 'plants/plantDetails.html', context={"plant":plant, "similarPlants": similarPlants, "comments": comments})
     
     return response
 
@@ -103,3 +104,13 @@ def searchPlantsView(request:HttpRequest):
     page_obj = paginator.get_page(pageNumber)
 
     return render(request, "plants/searchPlants.html", {"page_obj" : page_obj, 'categories': Plant.Categories.choices})
+
+#Add comment to plants view
+def addCommentView(request:HttpRequest, plantid:int):
+    
+    if request.method == 'POST':
+        plant = Plant.objects.get(pk=plantid)
+        newComment = Comment(plant=plant, name=request.POST['name'], comment=request.POST['comment'])
+        newComment.save()
+
+    return redirect('plants:plantDetailsView', plantid=plantid)
