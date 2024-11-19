@@ -16,9 +16,15 @@ class Plant(models.Model):
     isEdible = models.BooleanField()
     createdAt = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self) -> str:
+        return self.name
+
 class Comment(models.Model):
 
     plant = models.ForeignKey(Plant, on_delete=models.CASCADE)
     name = models.CharField(max_length=1024)
     comment = models.TextField()
     createdAt = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return f"{self.name} on {self.plant.name}"
