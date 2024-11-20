@@ -129,5 +129,6 @@ def addCommentView(request:HttpRequest, plantid:int):
         plant = Plant.objects.get(pk=plantid)
         newComment = Comment(plant=plant, name=request.POST['name'], comment=request.POST['comment'])
         newComment.save()
+        messages.success(request, "Your comment was added successfully.", "alert-success") 
 
     return redirect('plants:plantDetailsView', plantid=plantid)

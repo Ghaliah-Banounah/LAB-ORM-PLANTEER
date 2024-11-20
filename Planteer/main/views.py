@@ -7,6 +7,7 @@ from django.core.mail import EmailMessage
 from django.conf import settings
 from django.template.loader import render_to_string
 from datetime import datetime
+from django.contrib import messages
 
 #Home page
 def homeView(request: HttpRequest):
@@ -34,6 +35,7 @@ def contactView(request: HttpRequest):
             emailMsg = EmailMessage(subject, htmlContent,  fromEmail, [to])
             emailMsg.content_subtype = "html"
             emailMsg.send()
+            messages.success(request, "Your message was sent successfully. Thank you.", "alert-success") 
 
     return response
 
