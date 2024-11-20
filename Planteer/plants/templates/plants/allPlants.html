@@ -8,23 +8,14 @@
 <section class="container-lg text-center">
     <h1
         class="display-4 f-jockey m-4 lighttext {% if 'mode' in request.COOKIES and request.COOKIES.mode == 'dark' %} darktext {% endif %}">
-        All plants
+        {{selected|capfirst}} plants
     </h1>
     <div class="row justify-content-center">
         <div class="col-md-8 f-ubuntu align-items-center justify-content-center gap-1 p-2 rounded-pill shadow text-bg-light {% if 'mode' in request.COOKIES and request.COOKIES.mode == 'dark' %} text-bg-dark {% endif %}">
-            <div class="container justify-content-center">
-                <h5
-                    class="f-jockey lighttitle {% if 'mode' in request.COOKIES and request.COOKIES.mode == 'dark' %} darktitle {% endif %}">
-                    Filter by:
-                </h5>
-            </div>
-            <div class="d-flex flex-wrap justify-content-center gap-2 p-2">
-                {% for value, label in categories %}
-                <a href="{% url 'plants:plantsDisplayView' value %}{% querystring %}" class="border-2 px-2 rounded-pill text-decoration-none small tag hover
-                {% if 'mode' in request.COOKIES and request.COOKIES.mode == 'dark' %} text-white{% else %} text-black{% endif %}
-                {% if value == selected %} {{value}}-tag {% endif %}">{{label}}</a>
-                {% endfor %}
-            </div>
+            <h5
+                class="f-jockey lighttitle {% if 'mode' in request.COOKIES and request.COOKIES.mode == 'dark' %} darktitle {% endif %}">
+                Filter by:
+            </h5>
             <form action="{% url 'plants:plantsDisplayView' selected %}{% querystring %}" method="get" class="mt-3">
                 <div class="form-check form-check-inline">
                     <input class="form-check-input focus-ring focus-ring-success" type="checkbox" id="edible" value="true" name="isEdible">
@@ -47,9 +38,13 @@
                     <img src="{{plant.image.url}}" class="card-img-top rounded-3 h-image "/>
                     <div class="card-body d-flex flex-column gap-1 {% if 'mode' in request.COOKIES and request.COOKIES.mode == 'dark' %} text-white {% else %} text-black {% endif %}">
                         <a href="{% url 'plants:plantDetailsView' plant.id %}" class="card-title fs-3 f-jockey text-decoration-none my-1">{{plant.name}}</a>
-                        <a href="{% url 'plants:plantsDisplayView' plant.category %}" class="{{plant.category}}-tag rounded-4 border-2 text-center text-decoration-none px-1 mb-2 small {% if 'mode' in request.COOKIES and request.COOKIES.mode == 'dark' %} text-white {% else %} text-black {% endif %}" style="max-width: fit-content;">
-                            {{plant.category}}
-                        </a>
+                        <div class="d-flex flex-row gap-2">
+                            {% for category in plant.categories.all %}
+                            <a href="{% url 'plants:plantsDisplayView' category %}" class="{{category}}-tag rounded-4 border-2 text-center text-decoration-none px-1 mb-2 small {% if 'mode' in request.COOKIES and request.COOKIES.mode == 'dark' %} text-white {% else %} text-black {% endif %}" style="max-width: fit-content;">
+                            {{category}}
+                            </a>
+                            {% endfor %}
+                        </div>
                         <p class="card-text small fw-medium {% if 'mode' in request.COOKIES and request.COOKIES.mode == 'dark' %} darktext {% else %} lighttext {% endif %} ">
                             <span class="fw-medium fs-6 {% if 'mode' in request.COOKIES and request.COOKIES.mode == 'dark' %} text-white {% else %} text-black {% endif %}">About: </span>
                             {{plant.about}}
@@ -60,7 +55,9 @@
             {% empty %}
             <div class="col justify-content-center {% if 'mode' in request.COOKIES and request.COOKIES.mode == 'dark' %} darktext {% else %} lighttext {% endif %}">
                 <div class="d-flex flex-column p-4 gap-2 rounded-3">
-                    <h4 class="f-jockey {% if 'mode' in request.COOKIES and request.COOKIES.mode == 'dark' %} darktext {% else %} lighttext {% endif %}">No plants under '{{selected}}' category..</h4>
+                    <h4 class="f-jockey {% if 'mode' in request.COOKIES and request.COOKIES.mode == 'dark' %} darktext {% else %} lighttext {% endif %}">
+                        No plants under '{{selected}}' category..
+                    </h4>
                 </div>
             </div>
             {% endfor %}

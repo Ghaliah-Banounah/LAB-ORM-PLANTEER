@@ -101,27 +101,27 @@
     border: solid dimgray;
 }
 
-.herbs-tag {
+.Herb-tag {
     background: rgba(144, 207, 108, 0.5);
     border: solid rgb(144, 207, 108);
 }
 
-.shrubs-tag {
+.Shrub-tag {
     background: rgba(196, 207, 108, 0.5);
     border: solid rgb(196, 207, 108);
 }
 
-.trees-tag {
+.Tree-tag {
     background: rgba(167, 136, 85, 0.5);
     border: solid rgb(167, 136, 85);
 }
 
-.creepers-tag {
+.Creeper-tag {
     background: rgba(72, 140, 71, 0.5);
     border: solid rgb(72, 140, 71);
 }
 
-.climbers-tag {
+.Climber-tag {
     background: rgba(217, 202, 101, 0.5);
     border: solid rgb(217, 202, 101);
 }

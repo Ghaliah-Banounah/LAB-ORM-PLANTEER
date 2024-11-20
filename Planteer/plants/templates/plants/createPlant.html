@@ -42,21 +42,18 @@
                         Please write what it's used for.
                     </div>
                 </div>
-                <div class="form-floating mb-3">
-                    <select class="form-select focus-ring focus-ring-success" id="floatingSelect" name="category"
-                        required>
-                        <option selected disabled value="">Choose..</option>
-                        {% for value, label in categories %}
-                        <option value="{{value}}">{{label}}</option>
-                        {% endfor %}
-                    </select>
-                    <label for="floatingSelect">Category</label>
+                <p class="text-start mb-0">Categories:</p>
+                <div class="mb-3 d-flex align-items-center gap-2 text-start">    
+                    {% for category in categories %}
+                    <input type="checkbox" class="btn-check" name="categories" id="check-{{category.id}}" autocomplete="off" value="{{category.id}}">
+                    <label class="btn btn-outline-success border-2 py-0 rounded-pill" for="check-{{category.id}}">{{category.name}}</label>
+                    {% endfor %}
                     <div class="invalid-feedback">
-                        Please select a valid category.
+                        Please select at least 1 category.
                     </div>
                 </div>
                 <div class="mb-3 text-start">
-                    <label for="formFile" class="form-label">Upload a picture</label>
+                    <label for="formFile" class="form-label">Upload a picture:</label>
                     <input class="form-control border-2 focus-ring focus-ring-success" type="file" name="image"
                         id="formFile" accept="image/*" required>
                     <div class="invalid-feedback">

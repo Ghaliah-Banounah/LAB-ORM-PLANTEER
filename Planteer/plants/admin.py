@@ -1,9 +1,8 @@
 from django.contrib import admin
-from .models import Plant, Comment
+from .models import Plant, Comment, Category
 
 class PlantAdmin(admin.ModelAdmin):
-    list_display = ['name', 'category', 'createdAt']
-    list_filter = ['category']
+    list_display = ['name', 'createdAt']
 
 class CommentAdmin(admin.ModelAdmin):
     list_display = ['name', 'plant', 'createdAt']
@@ -11,3 +10,4 @@ class CommentAdmin(admin.ModelAdmin):
 
 admin.site.register(Plant, PlantAdmin)
 admin.site.register(Comment, CommentAdmin)
+admin.site.register(Category)

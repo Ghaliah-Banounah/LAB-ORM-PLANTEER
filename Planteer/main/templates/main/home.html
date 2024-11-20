@@ -11,8 +11,7 @@
         <h1 class="pt-3">Welcome to <span class="f-jockey largetext">Planteer</span></h1>
         <h4 class="pb-3">A Database for Plant Lovers!</h4>
         <!-- Search bar -->
-        <form role="search" method="get" action="{% url 'plants:searchPlantsView' %}" class="pb-4 needs-validation"
-            novalidate>
+        <form role="search" method="get" action="{% url 'plants:searchPlantsView' %}" class="pb-4 needs-validation" novalidate>
             <div class="input-group justify-content-center">
                 <input class="form-control focus-ring focus-ring-success rounded-start-4" style="max-width: 400px;"
                     type="search" placeholder="Search" aria-label="Search" name="search" value="{{request.GET.search}}"
@@ -43,10 +42,16 @@
                 <div class="card p-2 my-2 text-start shadow rounded-3 {% if 'mode' in request.COOKIES and request.COOKIES.mode == 'dark' %} text-bg-dark {% else %} text-bg-light {% endif %}" style="height: 33rem;">
                     <img src="{{plant.image.url}}" class="card-img-top rounded-3 h-image "/>
                     <div class="card-body d-flex flex-column gap-1 {% if 'mode' in request.COOKIES and request.COOKIES.mode == 'dark' %} text-white {% else %} text-black {% endif %}">
-                        <a href="{% url 'plants:plantDetailsView' plant.id %}" class="card-title fs-3 f-jockey text-decoration-none my-1">{{plant.name}}</a>
-                        <a href="{% url 'plants:plantsDisplayView' plant.category %}" class="{{plant.category}}-tag rounded-4 border-2 text-center text-decoration-none px-1 mb-2 small {% if 'mode' in request.COOKIES and request.COOKIES.mode == 'dark' %} text-white {% else %} text-black {% endif %}" style="max-width: fit-content;">
-                            {{plant.category}}
+                        <a href="{% url 'plants:plantDetailsView' plant.id %}" class="card-title fs-3 f-jockey text-decoration-none my-1">
+                            {{plant.name}}
                         </a>
+                        <div class="d-flex flex-row gap-2">
+                            {% for category in plant.categories.all %}
+                            <a href="{% url 'plants:plantsDisplayView' category %}" class="{{category}}-tag rounded-4 border-2 text-center text-decoration-none px-1 mb-2 small {% if 'mode' in request.COOKIES and request.COOKIES.mode == 'dark' %} text-white {% else %} text-black {% endif %}" style="max-width: fit-content;">
+                            {{category}}
+                            </a>
+                            {% endfor %}
+                        </div>
                         <p class="card-text small fw-medium {% if 'mode' in request.COOKIES and request.COOKIES.mode == 'dark' %} darktext {% else %} lighttext {% endif %} ">
                             <span class="fw-medium fs-6 {% if 'mode' in request.COOKIES and request.COOKIES.mode == 'dark' %} text-white {% else %} text-black {% endif %}">About: </span>
                             {{plant.about}}

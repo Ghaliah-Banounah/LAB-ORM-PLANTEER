@@ -13,7 +13,13 @@
         <div class="col col-md-6 col-lg-5 h-col {% if 'mode' in request.COOKIES and request.COOKIES.mode == 'dark' %} text-light {% else %} text-black {% endif %}">
             <div class="d-flex flex-column text-start h-100 p-4 shadow gap-1 rounded-3 {% if 'mode' in request.COOKIES and request.COOKIES.mode == 'dark' %} bg-dark {% else %} bg-light {% endif %}">
                 <h2 class="fw-semibold f-jockey"> {{plant.name}} </h2>
-                <p class="{{plant.category}}-tag rounded-4 border-2 text-center w-25">{{plant.category}}</p>
+                <div class="d-flex flex-row gap-2">
+                    {% for category in plant.categories.all %}
+                    <a href="{% url 'plants:plantsDisplayView' category %}" class="{{category}}-tag rounded-4 border-2 text-center text-decoration-none px-1 mb-2 small {% if 'mode' in request.COOKIES and request.COOKIES.mode == 'dark' %} text-white {% else %} text-black {% endif %}" style="max-width: fit-content;">
+                    {{category}}
+                    </a>
+                    {% endfor %}
+                </div>
                 <p class="fw-medium fs-5">About:
                     <span class="fw-normal fs-6 {% if 'mode' in request.COOKIES and request.COOKIES.mode == 'dark' %} darktext {% else %} lighttext {% endif %}">{{plant.about}}</span>
                 </p>
@@ -77,9 +83,11 @@
                         <img src="{{similar.image.url}}" class="card-img-top rounded-3 h-image "/>
                         <div class="card-body d-flex flex-column gap-1 {% if 'mode' in request.COOKIES and request.COOKIES.mode == 'dark' %} text-white {% else %} text-black {% endif %}">
                             <a href="{% url 'plants:plantDetailsView' similar.id %}" class="card-title fs-3 f-jockey text-decoration-none my-1">{{similar.name}}</a>
-                            <a href="{% url 'plants:plantsDisplayView' similar.category %}" class="{{similar.category}}-tag rounded-4 border-2 text-center text-decoration-none px-1 mb-2 small {% if 'mode' in request.COOKIES and request.COOKIES.mode == 'dark' %} text-white {% else %} text-black {% endif %}" style="max-width: fit-content;">
-                                {{similar.category}}
+                            {% for category in similar.categories.all %}
+                            <a href="{% url 'plants:plantsDisplayView' category %}" class="{{category}}-tag rounded-4 border-2 text-center text-decoration-none px-1 mb-2 small {% if 'mode' in request.COOKIES and request.COOKIES.mode == 'dark' %} text-white {% else %} text-black {% endif %}" style="max-width: fit-content;">
+                                {{category}}
                             </a>
+                            {% endfor %}
                             <p class="card-text small fw-medium {% if 'mode' in request.COOKIES and request.COOKIES.mode == 'dark' %} darktext {% else %} lighttext {% endif %} ">
                                 <span class="fw-medium fs-6 {% if 'mode' in request.COOKIES and request.COOKIES.mode == 'dark' %} text-white {% else %} text-black {% endif %}">About: </span>
                                 {{similar.about}}
@@ -90,10 +98,11 @@
             {% endif %}
         {% endfor %}
     </div>
-    {% endif %}
+    {% else %}
     <h5 class="ps-5 {% if 'mode' in request.COOKIES and request.COOKIES.mode == 'dark' %} darktext {% else %} lighttext {% endif %}">
     No similar plants..
     </h5>
+    {% endif %}
 </section>
 
 <!-- Comment section -->

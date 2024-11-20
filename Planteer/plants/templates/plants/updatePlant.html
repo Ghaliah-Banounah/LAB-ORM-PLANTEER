@@ -41,15 +41,15 @@
                         Please write what it's used for.
                     </div>
                 </div>
-                <div class="form-floating mb-3">
-                    <select class="form-select focus-ring focus-ring-success" id="floatingSelect" name="category"
-                        required>
-                        <option selected disabled value="">Choose..</option>
-                        {% for value, label in categories %}
-                        <option value="{{value}}"{% if plant.category == value %}selected{% endif %}>{{label}}</option>
-                        {% endfor %}
-                    </select>
-                    <label for="floatingSelect">Category</label>
+                <p class="text-start mb-0">Categories:</p>
+                <div class="mb-3 d-flex align-items-center gap-2 text-start">    
+                    {% for category in categories %}
+                    <input type="checkbox" class="btn-check" name="categories" id="check-{{category.id}}" autocomplete="off" value="{{category.id}}" {% if category in plant.categories.all %} checked {% endif %}>
+                    <label class="btn btn-outline-success border-2 py-0 rounded-pill" for="check-{{category.id}}">{{category.name}}</label>
+                    {% endfor %}
+                    <div class="invalid-feedback">
+                        Please select at least 1 category.
+                    </div>
                 </div>
                 <div class="mb-3 text-start">
                     <div class="row justify-content-center my-3">

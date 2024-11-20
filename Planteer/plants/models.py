@@ -1,23 +1,32 @@
 from django.db import models
 
+
+class Category(models.Model):
+    name = models.CharField(max_length=128)
+    
+    def __str__(self) -> str:
+        return self.name
+
+
 class Plant(models.Model):
-    class Categories(models.TextChoices):
-        HERBS = "herbs", "Herbs"
-        SHRUBS = "shrubs", "Shrubs"
-        TREES = "trees", "Trees"
-        CREEPERS = "creepers", "Creepers"
-        CLIMBERS = "climbers", "Climbers"
+    # class Categories(models.TextChoices):
+    #     HERBS = "herbs", "Herbs"
+    #     SHRUBS = "shrubs", "Shrubs"
+    #     TREES = "trees", "Trees"
+    #     CREEPERS = "creepers", "Creepers"
+    #     CLIMBERS = "climbers", "Climbers"
 
     name = models.CharField(max_length=256)
     about  = models.TextField()
     usedFor = models.TextField()
     image = models.ImageField(upload_to='images/')
-    category = models.CharField(max_length=64, choices=Categories.choices)
+    categories = models.ManyToManyField(Category)
     isEdible = models.BooleanField()
     createdAt = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
         return self.name
+    
 
 class Comment(models.Model):
 
