@@ -3,10 +3,9 @@ from django.http import HttpRequest
 from plants.models import Plant
 from .models import Contact
 from .forms import ContactForm
-from django.core.mail import send_mail
-from Planteer import settings
+from django.core.mail import EmailMessage
+from django.conf import settings
 from django.template.loader import render_to_string
-from django.utils.html import strip_tags
 from datetime import datetime
 
 #Home page
@@ -31,10 +30,10 @@ def contactView(request: HttpRequest):
             subject = "Planteer Support"
             fromEmail = settings.DEFAULT_FROM_EMAIL
             to = request.POST['email']
-            htmlContent = render_to_string('main/mailTemplate.html', {'reciever': request.POST, 'sentAt': datetime.strftime( datetime.now() , "%d/%m/%Y, %H:%M:%S")})
-            textContent = strip_tags(htmlContent)
-            send_mail(subject, textContent, fromEmail, [to], html_message=htmlContent, fail_silently=False)
-            
+            htmlContent = render_to_string('main/mail/mailTemplate.html', {'reciever': request.POST, 'sentAt': datetime.strftime(datetime.now() , "%d/%m/%Y, %H:%M:%S")})
+            emailMsg = EmailMessage(subject, htmlContent,  fromEmail, [to])
+            emailMsg.content_subtype = "html"
+            emailMsg.send()
 
     return response
 
